@@ -57,13 +57,14 @@ class Folder:
 			for item in child.filelinesbuffer:
 				self.filelinesbuffer.append(os.path.join(child.foldername,item))
 
-	def SaveFile(self):		
-		# Open/create file:
-		f = open(os.path.join(self.path, self.filename + ".m3u"), "w")
-		# Write the concatenated buffer with break lines (\n)
-		f.writelines("\n".join(self.filelinesbuffer))
-		# Close the file:
-		f.close
+	def SaveFile(self):
+		if (len(self.filelinesbuffer)>0):		
+			# Open/create file:
+			f = open(os.path.join(self.path, self.filename + ".m3u"), "w")
+			# Write the concatenated buffer with break lines (\n)
+			f.writelines("\n".join(self.filelinesbuffer))
+			# Close the file:
+			f.close
 
 
 def FirstElement(input):
