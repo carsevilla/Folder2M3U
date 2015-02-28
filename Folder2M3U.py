@@ -107,7 +107,15 @@ def DeleteHiddenFilesFolder (dirname):
 		for fname in files:
 			os.remove(fname)			
 
-		
+
+def AskForYesNoOption (text):
+	AnswerYes = "YESyesYes"
+	AnswerNo = "NnNONono"
+	Answer = "_"
+	while((AnswerYes + AnswerNo).find(Answer) < 0):
+		Answer = str(raw_input(text + " (Y/N) > "))
+	return (AnswerYes.find(Answer) > -1) and (AnswerNo.find(Answer) == -1)
+
 ### --------------------------------###		
 ###     The program starts here     ###
 
@@ -119,14 +127,15 @@ if __name__ == "__main__":
 			break
 		elif (os.path.exists(rootfolder)):
 			# Ask for extra options:
-			deleteMP3 = str(raw_input("Delete existing M3U files? (Y/N) > "))
-			deleteHidden = str(raw_input("Delete hidden files? (ie. \".extension\") (Y/N) > "))
+			deleteMP3 = AskForYesNoOption("Delete existing M3U files?")
+			deleteHidden = AskForYesNoOption("Delete hidden files? (ie. \".extension\")")
 			# Delete if applicable:
-			if ("YESyesYes".find(deleteMP3) > -1) and ("NnNONono".find(deleteMP3) == -1):
+			if (deleteMP3):
 				DeleteM3UFolder(rootfolder)
-			if ("YESyesYes".find(deleteHidden) > -1) and ("NnNONono".find(deleteHidden) == -1):
+			if (deleteHidden):
 				DeleteHiddenFilesFolder(rootfolder)
 			# Split the path and the name of the root folder (to create the object):	
+			print("Working on it...")
 			splitted_root = os.path.split(rootfolder)
 			RootFolder = Folder("".join(splitted_root[:-1]),splitted_root[-1])
 			RootFolder.scan()
